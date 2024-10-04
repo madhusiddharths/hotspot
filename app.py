@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 import json
 import plotly.express as px
 import os
@@ -12,7 +11,6 @@ import re
 import geopandas as gpd
 import requests
 from opencage.geocoder import OpenCageGeocode
-from matplotlib import cm
 import warnings
 import dash_bootstrap_components as dbc
 
