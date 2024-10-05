@@ -280,6 +280,8 @@ for i in range(len(list_df)-1):
         estimate_daterange[temp_date_holder] = i
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+server = app.server
+
 app.layout = html.Div([
     # Date Picker for selecting the date range
     html.Div([
