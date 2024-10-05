@@ -713,4 +713,4 @@ def update_map(date):
         return fig, "No Data", "No Data", "No Data", "No Data", "No Data"
 
 warnings.filterwarnings("ignore")
-app.run_server(debug=True)
+app.run_server(debug=True, port = 8050)
