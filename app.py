@@ -252,7 +252,7 @@ df2 = df2[df2['zipcode'] <= 60666]
 df2.dropna(inplace = True)
 df2['population'] = df2['zipcode'].apply(lambda x : pop_dict[x])
 temp_df = df[['week','LAB_FLU_TESTED']]
-temp_df['week'] = temp_df['week'] + 2
+temp_df.loc[:,'week'] = temp_df['week'] + 2
 temp_df_dict = temp_df.set_index('week')['LAB_FLU_TESTED'].to_dict()
 df2['cases'] = df2['week'].apply(lambda x : temp_df_dict[x])
 df2.reset_index(drop = True, inplace = True)
@@ -619,7 +619,11 @@ app.layout = html.Div([
         placement="top",  # Where the tooltip will appear
         trigger="hover"  # Show tooltip on click (you can change this to 'hover' or 'focus' as needed)
     ),
-])
+], style = {
+    'display':'flex',
+    'flexDirection':'column',
+    'marginTop':'10%',
+})
 
 
 @app.callback(
