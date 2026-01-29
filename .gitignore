@@ -2,3 +2,16 @@ venv
 *.pyc
 .DS_Store
 .env
+
+# Data
+*.csv
+*.json
+*.geojson
+
+# Temporary and Cache files
+__pycache__/
+.ipynb_checkpoints/
+*.log
+.pytest_cache/
+.idea/
+.vscode/

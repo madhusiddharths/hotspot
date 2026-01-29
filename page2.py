@@ -668,7 +668,7 @@ def run_app_2(server):
                                 locations='ZIP_Code', 
                                 featureidkey="properties.postal-code",  # Match the key in your GeoJSON
                                 color='ILI',
-                                color_continuous_scale="Viridis",
+                                color_continuous_scale="Blackbody_r",
                                 range_color=(1, 10),  # Normalized range
                                 mapbox_style="carto-positron",
                                 zoom=9, center={"lat": 41.85, "lon": -87.6298},  # Center on Chicago
