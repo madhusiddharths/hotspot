@@ -1,17 +1,32 @@
-venv
+# Python
+venv/
+.venv/
+env/
 *.pyc
+__pycache__/
+.pytest_cache/
+
+# Editors / OS
 .DS_Store
 .env
-
-# Data
-*.csv
-*.json
-*.geojson
-
-# Temporary and Cache files
-__pycache__/
 .ipynb_checkpoints/
-*.log
-.pytest_cache/
 .idea/
 .vscode/
+*.log
+
+# --- Personal location history: NEVER commit ---
+# Raw Google "Timeline" exports and anything derived from them contain
+# the author's real movements. Process them locally; only the synthetic
+# sample_timeline.json is tracked.
+Timeline.json
+Timeline*.json
+processed_timeline.json
+
+# Misc large / legacy artifacts (not needed to run the app)
+grainger/
+data_18_24.json
+
+# NOTE: the public reference data the app needs to run IS tracked on purpose:
+#   geojson/*.geojson, Influenza_Surveillance_Weekly.csv, risk_level.csv,
+#   FluSurveillance_Custom_Download_Data.csv, Chicago_Population_Counts.csv,
+#   sample_timeline.json

@@ -1,66 +1,84 @@
-# Hotspot - Influenza Surveillance Visualization
+# Health Hotspot Tracker
 
-This project is a multi-page Dash application designed to visualize influenza-like illness (ILI) data and risk levels. It provides an interactive interface for exploring health surveillance metrics, utilizing geospatial data and interactive charts.
+An interactive **Streamlit** dashboard for exploring influenza-like illness (ILI)
+surveillance in Chicago. It overlays weekly ILI activity on a ZIP-code choropleth
+map and surfaces supporting metrics — case counts, week-over-week change, the most
+affected age group, and an optional personal-exposure probability computed from a
+Google *Timeline* export.
 
-## Project Structure
+> Originally a multi-page Dash app; migrated to a single-page Streamlit app.
 
-The application is built using **Dash** (on top of Flask) and is structured as follows:
+## Features
 
-- **`app.py`**: The main entry point. It initializes the Flask server and mounts two Dash applications (`app1` and `app2`). It handles routing, redirecting the root URL to the first app.
-- **`page1.py`**: Defines the layout for the first Dash app (`/app1/`). It serves as a landing dashboard featuring summary metrics (e.g., ILI values) in a card layout.
-- **`page2.py`**: Defines the layout and logic for the second Dash app (`/app2/`). This page typically contains more detailed analytics and map visualizations.
-- **`requirements.txt`**: Lists all Python dependencies required to run the project.
+- **ZIP-code choropleth** of weekly ILI activity for Chicago (≈ 60601–60661).
+- **Click a ZIP** on the map to drive the metric cards for that area.
+- **Week selector / slider** to move through the 2024–25 season.
+- **Trend chart** of ILI and lab-tested cases over the season.
+- **Age-group breakdown** of weekly infection rates.
+- **Personal exposure probability** — upload your own Google *Timeline* JSON to
+  estimate contact-weighted risk (no personal data ships with this repo; a small
+  synthetic `sample_timeline.json` is used for the default view).
+
+## Project structure
+
+```
+streamlit_app.py        # Streamlit entry point (UI)
+src/
+  data_processing.py     # Timeline parsing + shared data loading
+.streamlit/config.toml   # Theme / server config
+geojson/                 # Chicago ZIP-code boundaries (public)
+*.csv                    # Public surveillance / population data (see below)
+sample_timeline.json     # Synthetic timeline so the demo runs out of the box
+tests/                   # Smoke tests
+```
 
 ## Installation
 
-1.  **Clone the repository**:
-    ```bash
-    git clone <repository_url>
-    cd hotspot
-    ```
-
-2.  **Set up a virtual environment** (recommended):
-    ```bash
-    python3 -m venv venv
-    source venv/bin/activate
-    ```
-
-3.  **Install dependencies**:
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-## Usage
-
-To run the application locally:
-
 ```bash
-python app.py
+git clone https://github.com/madhusiddharths/hotspot.git
+cd hotspot
+python3 -m venv venv && source venv/bin/activate
+pip install -r requirements.txt
 ```
 
-The server will start on port `8080`.
-- Open your browser and navigate to `http://localhost:8080/`.
-- You will be automatically redirected to the dashboard at `http://localhost:8080/app1/`.
+## Running
 
-## Data Management
+```bash
+streamlit run streamlit_app.py
+```
 
-**Note:** Data files (CSVs, JSONs, GeoJSONs) are excluded from version control for privacy and size reasons. Ensure you have the following data files in your project root before running the app:
-- `Chicago_Population_Counts.csv`
-- `FluSurveillance_Custom_Download_Data.csv`
-- `Influenza_Surveillance_Weekly.csv`
-- `risk_level.csv`
-- `Timeline.json`
-- `data_18_24.json`
-- Relevant GeoJSON files in the `geojson/` directory.
+Then open http://localhost:8501.
+
+## Data
+
+The public reference data needed to run is tracked in the repo:
+
+| File | Source |
+| --- | --- |
+| `Influenza_Surveillance_Weekly.csv` | Chicago Dept. of Public Health flu surveillance |
+| `risk_level.csv` | ILI activity level by ZIP code |
+| `FluSurveillance_Custom_Download_Data.csv` | CDC FluSurv-NET age-group rates |
+| `Chicago_Population_Counts.csv` | Chicago population by area |
+| `geojson/*.geojson` | Chicago ZIP-code boundaries |
+
+**Personal data is never committed.** Google *Timeline* exports
+(`Timeline.json`) and anything derived from them are git-ignored. To use the
+exposure-probability feature with your own data, either upload your `Timeline.json`
+in the app, or process it locally:
+
+```bash
+python src/data_processing.py   # writes processed_timeline.json from Timeline.json
+```
 
 ## Deployment
 
-The project is configured for deployment (e.g., on Heroku) via the included `Procfile`, which uses `gunicorn` as the production server.
+Deploy on [Streamlit Community Cloud](https://streamlit.io/cloud) (point it at
+`streamlit_app.py`) or any host that respects the `Procfile`:
 
-## Technologies Used
+```
+web: streamlit run streamlit_app.py --server.port $PORT --server.address 0.0.0.0 --server.headless true
+```
 
-- **Dash & Flask**: For the web application framework.
-- **Plotly**: For interactive graphs and visualizations.
-- **Pandas & NumPy**: For data processing and analysis.
-- **GeoPandas**: For handling geospatial operations.
-- **OpenCage**: For geocoding and location services.
+## Tech stack
+
+Streamlit · Plotly · pandas / NumPy · GeoPandas (offline ZIP lookup for Timeline parsing).
