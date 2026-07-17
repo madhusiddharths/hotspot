@@ -8,6 +8,8 @@ Google *Timeline* export.
 
 > Originally a multi-page Dash app; migrated to a single-page Streamlit app.
 
+**[▶ Try the live app](https://madhusiddharths-hotspot-streamlit-app-ndfk0y.streamlit.app)** *(free-tier host — may need a click to wake)* — the full 36-week 2024 season, 131,896 lab-tested cases across 56 Chicago ZIP codes.
+
 ## Features
 
 - **ZIP-code choropleth** of weekly ILI activity for Chicago (≈ 60601–60661).
